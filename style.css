@@ -217,7 +217,10 @@ button {
     letter-spacing: 0.05em;
     display: inline-flex;
     align-items: center;
+    color: #ffffff;
     opacity: 1;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
 .marquee-dot {
