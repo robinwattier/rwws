@@ -135,7 +135,8 @@ class AsciiFilter {
 
   hue() {
     const deg = (Math.atan2(this.dy, this.dx) * 180) / Math.PI;
-    this.deg += (deg - this.deg) * 0.075;
+    // Much slower easing for color transitions (0.02 instead of 0.075)
+    this.deg += (deg - this.deg) * 0.02;
     this.domElement.style.filter = `hue-rotate(${this.deg.toFixed(1)}deg)`;
   }
 
@@ -402,11 +403,13 @@ class CanvAscii {
     const w = typeof window !== 'undefined' ? window.innerWidth : this.width;
     const h = typeof window !== 'undefined' ? window.innerHeight : this.height;
     
-    const x = map(this.mouse.y, 0, h, 0.5, -0.5);
-    const y = map(this.mouse.x, 0, w, -0.5, 0.5);
+    // Reduced rotation range for more subtle sensitivity (0.2 instead of 0.5)
+    const x = map(this.mouse.y, 0, h, 0.2, -0.2);
+    const y = map(this.mouse.x, 0, w, -0.2, 0.2);
     
-    this.mesh.rotation.x += (x - this.mesh.rotation.x) * 0.05;
-    this.mesh.rotation.y += (y - this.mesh.rotation.y) * 0.05;
+    // Smoother easing (0.03 instead of 0.05)
+    this.mesh.rotation.x += (x - this.mesh.rotation.x) * 0.03;
+    this.mesh.rotation.y += (y - this.mesh.rotation.y) * 0.03;
   }
 
   clear() {
