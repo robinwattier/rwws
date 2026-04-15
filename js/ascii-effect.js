@@ -441,6 +441,8 @@ window.initAsciiEffect = function(container, options = {}) {
     asciiFontSize = 8,
     textFontSize = 200,
     textColor = '#fdf9f3',
+    fontFamily = 'Arial, sans-serif',
+    lineHeight = 1.0,
     planeBaseHeight = 8,
     enableWaves = true
   } = options;
@@ -449,7 +451,7 @@ window.initAsciiEffect = function(container, options = {}) {
 
   const init = (w, h) => {
     asciiEffect = new CanvAscii(
-      { text, asciiFontSize, textFontSize, textColor, planeBaseHeight, enableWaves },
+      { text, asciiFontSize, textFontSize, textColor, fontFamily, lineHeight, planeBaseHeight, enableWaves },
       container,
       w,
       h
