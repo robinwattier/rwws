@@ -135,9 +135,9 @@ class AsciiFilter {
 
   hue() {
     const deg = (Math.atan2(this.dy, this.dx) * 180) / Math.PI;
-    // Ultra-slow easing for color transitions (0.005 instead of 0.02)
-    // This creates an almost static feel where color only shifts very lazily
-    this.deg += (deg - this.deg) * 0.005;
+    // Balanced easing for color transitions (0.015)
+    // Slightly more reactive than before but still very smooth
+    this.deg += (deg - this.deg) * 0.015;
     this.domElement.style.filter = `hue-rotate(${this.deg.toFixed(1)}deg)`;
   }
 
@@ -411,13 +411,13 @@ class CanvAscii {
     const w = typeof window !== 'undefined' ? window.innerWidth : this.width;
     const h = typeof window !== 'undefined' ? window.innerHeight : this.height;
     
-    // Ultra-subtle rotation range (0.08 instead of 0.2)
-    const x = map(this.mouse.y, 0, h, 0.08, -0.08);
-    const y = map(this.mouse.x, 0, w, -0.08, 0.08);
+    // Balanced rotation range for a "light" interactive feel (0.15)
+    const x = map(this.mouse.y, 0, h, 0.15, -0.15);
+    const y = map(this.mouse.x, 0, w, -0.15, 0.15);
     
-    // Very smooth, slow easing (0.02 instead of 0.03) for a calm "breathing" feel
-    this.mesh.rotation.x += (x - this.mesh.rotation.x) * 0.02;
-    this.mesh.rotation.y += (y - this.mesh.rotation.y) * 0.02;
+    // Snappier but still smooth easing (0.04)
+    this.mesh.rotation.x += (x - this.mesh.rotation.x) * 0.04;
+    this.mesh.rotation.y += (y - this.mesh.rotation.y) * 0.04;
   }
 
   clear() {

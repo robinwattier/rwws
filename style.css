@@ -143,6 +143,15 @@ button {
     overflow: hidden;
 }
 
+#ascii-canvas-container {
+    transition: filter 0.3s ease, transform 0.3s ease;
+    filter: brightness(1);
+}
+
+#ascii-canvas-container:hover {
+    filter: brightness(1.2);
+}
+
 #site-bg-img {
     width: 100%;
     height: 100%;
