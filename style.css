@@ -183,7 +183,7 @@ button {
     overflow: hidden;
     background: transparent;
     border: none;
-    color: var(--text-color);
+    color: #ffffff;
     padding: 1rem 0;
     position: absolute;
     bottom: 0;
@@ -217,7 +217,7 @@ button {
     letter-spacing: 0.05em;
     display: inline-flex;
     align-items: center;
-    opacity: 0.8;
+    opacity: 1;
 }
 
 .marquee-dot {
