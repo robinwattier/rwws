@@ -1,5 +1,5 @@
 const projectsData = [
-    { id: 'p1', title: 'Neural Nexus', img: 'images/p1.png', ratio: 'ratio-portrait', desc: 'AI-driven interface design.', prompt: 'High-end AI agent interface, futuristic holographic dashboard.' },
+    { id: 'p1', title: 'TrustUp', img: 'images/trustup.png', ratio: 'ratio-portrait', desc: 'Gestion de chantier & immobilier.', url: 'https://robinwattier.github.io/trust-up/', fullDesc: 'TrustUp est une plateforme minimaliste et performante dédiée à la gestion de projets de construction et immobiliers. Elle optimise le suivi des chantiers avec une interface premium en dark mode.' },
     { id: 'p2', title: 'Sonic Void', img: 'images/p2.png', ratio: 'ratio-square', desc: 'Generative audio visualization.', prompt: 'Abstract sculpture of sound waves, glowing neon particles.' },
     { id: 'p3', title: 'Ethereal Muse', img: 'images/p3.png', ratio: 'ratio-tall', desc: 'Avant-garde fashion visual.', prompt: 'Minimalist fashion editorial, metallic clothing, harsh shadows.' },
     { id: 'p4', title: 'Brutalist Echo', img: 'images/p4.png', ratio: 'ratio-square', desc: 'Architectural monolith study.', prompt: 'Brutalist concrete architecture, floating monolith, sunlight thru fog.' },
@@ -142,6 +142,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 <h2 class="modal-title">${project.title}</h2>
                 <p class="modal-desc">${project.fullDesc || defaultDesc}</p>
                 ${promptSection}
+                ${project.url ? `<a href="${project.url}" target="_blank" rel="noopener noreferrer" class="visit-project-btn">Visit Website</a>` : ''}
             </div>
         `;
 
