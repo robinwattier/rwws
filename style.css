@@ -222,11 +222,24 @@ button {
     padding: 0.85rem 2.5rem;
 }
 
-.nav-left {
+.nav-left,
+.nav-center,
+.nav-right {
     display: flex;
     align-items: center;
     flex: 1;
+}
+
+.nav-left {
     justify-content: flex-start;
+}
+
+.nav-center {
+    justify-content: center;
+}
+
+.nav-right {
+    justify-content: flex-end;
 }
 
 .nav-logo-text {
@@ -245,9 +258,6 @@ button {
 }
 
 @media (max-width: 768px) {
-    .nav-left {
-        justify-content: center;
-    }
     .nav-logo-text {
         font-size: 1.35rem;
     }
