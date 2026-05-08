@@ -17,9 +17,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // ── Elements ──────────────────────────────
     const navbar         = document.getElementById('navbar');
-    const burgerMenu     = document.getElementById('burger-menu');
-    const fullScreenMenu = document.getElementById('fullscreen-menu');
-    const closeMenuBtn   = document.getElementById('close-menu');
     const projectsContainer = document.getElementById('projects-container');
 
     // ── Navbar Scroll & Background Blur ─────────
@@ -45,30 +42,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }, { passive: true });
 
-    // ── Burger Menu ───────────────────────────
-    const openMenu = () => {
-        fullScreenMenu.classList.remove('hidden');
-        document.body.style.overflow = 'hidden';
-    };
 
-    const closeMenu = () => {
-        fullScreenMenu.classList.add('hidden');
-        document.body.style.overflow = '';
-    };
-
-    burgerMenu.addEventListener('click', openMenu);
-    closeMenuBtn.addEventListener('click', closeMenu);
-
-    // Close on backdrop click (not on links)
-    fullScreenMenu.addEventListener('click', (e) => {
-        if (!e.target.closest('.menu-link') && !e.target.closest('.close-btn')) {
-            closeMenu();
-        }
-    });
-
-    fullScreenMenu.querySelectorAll('.menu-link').forEach(link => {
-        link.addEventListener('click', closeMenu);
-    });
 
     // ── Render Work Grid ──────────────────────
     const renderProjects = () => {
