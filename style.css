@@ -1,0 +1,1184 @@
+/* ============================================================
+   DESIGN TOKENS
+   ============================================================ */
+:root {
+  --color-bg: #0a0a0a;
+  --color-surface: #111111;
+  --color-text: #e8e8e8;
+  --color-text-dim: #555555;
+  --color-accent: #C3ACFE;
+  --color-border: #222222;
+  --color-hover-bg: rgba(195, 172, 254, 0.06);
+
+  --font-mono: "Space Mono", "PP Supply Mono", "Courier New", monospace;
+
+  --fs-xs: 0.65rem;
+  /* 10.4px */
+  --fs-sm: 0.75rem;
+  /* 12px   */
+  --fs-base: 0.875rem;
+  /* 14px   */
+  --fs-md: 1rem;
+  /* 16px   */
+  --fs-lg: 1.125rem;
+  /* 18px   */
+
+  --ease-out-quart: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  --ease-in-quart: cubic-bezier(0.5, 0, 0.75, 0);
+
+  --transition-fast: 150ms var(--ease-out-quart);
+  --transition-medium: 350ms var(--ease-out-quart);
+  --transition-slow: 600ms var(--ease-out-quart);
+
+  --z-bg: 0;
+  --z-main: 10;
+  --z-corner: 20;
+
+  /* Scrollbar width — shared by both the custom webkit scrollbar and the
+     header's padding-right offset, guaranteeing pixel-perfect column alignment. */
+  --scrollbar-w: 6px;
+}
+
+/* ============================================================
+   RESET & BASE
+   ============================================================ */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 16px;
+  -webkit-text-size-adjust: 100%;
+  scroll-behavior: smooth;
+  overflow-x: hidden;
+}
+
+body {
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-mono);
+  font-size: var(--fs-base);
+  line-height: 1.5;
+  min-height: 100dvh;
+  overflow: hidden;
+  overflow-x: hidden;
+  cursor: default;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+  transition: color var(--transition-fast), opacity var(--transition-fast);
+}
+
+a:hover {
+  color: var(--color-accent);
+}
+
+a:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+ul {
+  list-style: none;
+}
+
+/* ============================================================
+   ACCESSIBILITY
+   ============================================================ */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ============================================================
+   BACKGROUND IMAGE LAYER
+   ============================================================ */
+#site-bg {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-bg);
+  pointer-events: none;
+  overflow: hidden;
+  opacity: 0.25; /* Subtle background presence for maximum text readability */
+  transition: opacity var(--transition-slow);
+}
+
+#site-bg.has-hover {
+  opacity: 0;
+}
+
+#ascii-canvas-container {
+  width: 100% !important;
+  height: 100% !important;
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  overflow: hidden !important;
+}
+
+.bg-image,
+.bg-video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transform: scale(1.08);
+  transition:
+    opacity 0.7s var(--ease-out-quart),
+    transform 1s var(--ease-out-quart);
+  pointer-events: none;
+  will-change: opacity, transform;
+}
+
+.bg-image {
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.bg-image.is-visible,
+.bg-video.is-visible {
+  opacity: 0.35;
+  transform: scale(1);
+}
+
+.bg-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  background: radial-gradient(ellipse at center,
+      rgba(10, 10, 10, 0.15) 0%,
+      rgba(10, 10, 10, 0.70) 100%);
+  transition: background var(--transition-slow);
+}
+
+/* ============================================================
+   NOISE TEXTURE OVERLAY
+   ============================================================ */
+.noise {
+  position: fixed;
+  inset: 0;
+  z-index: calc(var(--z-bg) + 1);
+  pointer-events: none;
+  opacity: 0.035;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  background-size: 200px 200px;
+}
+
+/* ============================================================
+   SITE WRAPPER
+   ============================================================ */
+.site-wrapper {
+  position: relative;
+  z-index: var(--z-main);
+  width: 100%;
+  height: 100dvh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem 2rem;
+  overflow-x: hidden;
+}
+
+/* ============================================================
+   PORTFOLIO MAIN
+   ============================================================ */
+.portfolio-main {
+  width: 100%;
+  max-width: 900px;
+}
+
+/* ---- Shared grid layout to prevent visual drift ---- */
+.list-header,
+.project-item {
+  display: grid;
+  grid-template-columns: 40fr 20fr 28fr 12fr;
+  gap: 0 1rem;
+}
+
+/* ---- Column headers (sticky & aligned) ---- */
+.list-header {
+  padding: 0.75rem 0; /* Balanced padding matches project-item precisely */
+  border-bottom: 1px solid var(--color-border);
+  font-size: var(--fs-xs);
+  letter-spacing: 0.12em;
+  color: #ffffff;
+  text-transform: uppercase;
+  user-select: none;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background-color: transparent;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  transition: 
+    background-color var(--transition-fast), 
+    backdrop-filter var(--transition-fast), 
+    -webkit-backdrop-filter var(--transition-fast);
+}
+
+/* Glass banner triggers only when scrolled */
+.list-header.scrolled {
+  background-color: rgba(10, 10, 10, 0.7); /* Translucent glassmorphism base */
+  backdrop-filter: blur(12px); /* Luxury frosted glass effect */
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.list-header span {
+  text-align: left;
+  justify-self: start;
+}
+
+/* ---- Project list ---- */
+.project-list {
+  width: 100%;
+  /* scrollbar-gutter reserves the scrollbar lane in the layout at all times,
+     so the header grid and the item grid always share the exact same width. */
+  scrollbar-gutter: stable;
+}
+
+/* ---- Project item ---- */
+.project-item {
+  align-items: center;
+  min-height: 3.5rem;
+  height: auto;
+  padding: 0.75rem 0;
+  box-sizing: border-box;
+  border-bottom: 1px solid var(--color-border);
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  transition: background var(--transition-fast);
+  will-change: opacity;
+}
+
+.project-item::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--color-hover-bg);
+  opacity: 0;
+  transition: opacity var(--transition-fast);
+  pointer-events: none;
+}
+
+.project-item:hover::before,
+.project-item.is-active::before {
+  opacity: 1;
+}
+
+/* Left accent bar on active */
+.project-item::after {
+  content: "";
+  position: absolute;
+  left: -2px;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: var(--color-accent);
+  transform: scaleY(0);
+  transform-origin: bottom;
+  transition: transform var(--transition-medium);
+}
+
+.project-item.is-active::after {
+  transform: scaleY(1);
+}
+
+/* ---- Project data cells ---- */
+.project-data {
+  text-align: left; /* Explicitly align text left to prevent centering-induced column offsets */
+  justify-self: start; /* Ensure grid items sit perfectly at the start boundary of each cell */
+  font-size: var(--fs-base);
+  font-weight: bold;
+  letter-spacing: 0.04em;
+  white-space: normal;
+  word-break: break-word;
+  overflow-wrap: break-word;
+  transition: color var(--transition-fast);
+  font-variant-numeric: tabular-nums;
+}
+
+.project-item.is-active .project-data {
+  color: var(--color-accent);
+}
+
+.project-data.year {
+  color: #ffffff;
+  font-size: var(--fs-sm);
+  justify-self: end;
+  text-align: right;
+}
+
+.project-item.is-active .project-data.year {
+  color: var(--color-accent);
+  opacity: 0.7;
+}
+
+/* ============================================================
+   IDLE ANIMATION KEYFRAMES
+   ============================================================ */
+@keyframes idlePulse {
+
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.05;
+  }
+}
+
+.project-item.is-idle {
+  animation: idlePulse 1.6s var(--ease-out-quart) both;
+}
+
+/* ============================================================
+   CORNER ELEMENTS
+   ============================================================ */
+.corner-elements {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-corner);
+  pointer-events: none;
+}
+
+.corner {
+  position: absolute;
+  font-size: var(--fs-xs);
+  letter-spacing: 0.1em;
+  color: var(--color-text-dim);
+  text-transform: uppercase;
+  pointer-events: all;
+}
+
+/* Top-left: animated square */
+.corner--tl {
+  top: 1.75rem;
+  left: 1.75rem;
+}
+
+.corner-square {
+  width: 10px;
+  height: 10px;
+  border: 1.5px solid var(--color-text-dim);
+  transition: transform var(--transition-medium), border-color var(--transition-medium);
+  animation: spinSquare 8s linear infinite;
+}
+
+@keyframes spinSquare {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* Top-right: nav links */
+.corner--tr {
+  top: 1.75rem;
+  right: 1.75rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.corner--tr a {
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-size: var(--fs-xs);
+}
+
+.sep {
+  color: var(--color-border);
+}
+
+/* Bottom-left: coordinates */
+.corner--bl {
+  bottom: 1.75rem;
+  left: 1.75rem;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Bottom-right: clock */
+.corner--br {
+  bottom: 1.75rem;
+  right: 1.75rem;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Blinking colon in clock */
+.time-colon {
+  animation: blink 1s step-start infinite;
+}
+
+@keyframes blink {
+
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0;
+  }
+}
+
+/* ============================================================
+   HOVER: dim non-active items
+   ============================================================ */
+.project-list.has-active .project-item:not(.is-active) {
+  opacity: 0.3;
+  transition: opacity var(--transition-medium);
+}
+
+.project-list.has-active .project-item.is-active {
+  opacity: 1;
+}
+
+/* ============================================================
+   SCROLLBAR (subtle, stylish, and scrollable - forced visibility)
+   ============================================================ */
+.project-list {
+  max-height: calc(3.5rem * 8);
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(195, 172, 254, 0.25) transparent;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-gutter: stable; /* always reserves the scrollbar lane width — prevents column shift on scroll */
+}
+
+/* Custom Webkit Scrollbar */
+.project-list::-webkit-scrollbar {
+  width: var(--scrollbar-w);
+  height: var(--scrollbar-w);
+  display: block;
+}
+
+.project-list::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.project-list::-webkit-scrollbar-thumb {
+  background: rgba(195, 172, 254, 0.25);
+  border-radius: 10px;
+  transition: background var(--transition-fast);
+}
+
+.project-list::-webkit-scrollbar-thumb:hover {
+  background: var(--color-accent);
+}
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media (max-width: 768px) {
+  .site-wrapper {
+    padding: 5rem 1rem 2rem 1rem;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .site-header {
+    padding: 0 1.5rem !important; /* Align navbar padding on mobile viewports */
+  }
+
+  .detail-grid {
+    padding: 5rem 1.5rem 2rem 1.5rem !important; /* Perfect match with header padding */
+  }
+
+  .project-list {
+    max-height: calc(3.2rem * 7 - 1rem);
+    scrollbar-gutter: auto;
+  }
+
+  .portfolio-main {
+    /* Compensate for reduced list height so vertical centering keeps
+       PROJECT NAME at the exact same Y position as with 8 rows */
+    padding-bottom: calc(3.2rem + 1rem);
+  }
+
+  .list-header,
+  .project-item {
+    grid-template-columns: 32fr 20fr 33fr 15fr;
+    gap: 0 0.5rem;
+  }
+
+  .project-item {
+    min-height: 3.2rem;
+    height: auto;
+    padding: 0.6rem 0;
+    box-sizing: border-box;
+  }
+
+  .list-header {
+    padding: 0.6rem 0;
+  }
+
+  .project-data.label,
+  .project-data.year {
+    display: block;
+  }
+
+  .project-data {
+    font-size: var(--fs-xs);
+  }
+
+  .corner--tl {
+    top: 1rem;
+    left: 1rem;
+  }
+
+  .corner--tr {
+    top: 1rem;
+    right: 1rem;
+  }
+
+  .corner--bl {
+    bottom: 1rem;
+    left: 1rem;
+  }
+
+  .corner--br {
+    bottom: 1rem;
+    right: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .site-wrapper {
+    padding: 5rem 0.5rem 2rem 0.5rem;
+  }
+
+  .site-header {
+    padding: 0 1rem !important; /* Tight clean padding on tiny mobile viewports */
+  }
+
+  .detail-grid {
+    padding: 4.5rem 1rem 1.5rem 1rem !important; /* Perfect match with header padding */
+  }
+
+  .project-list {
+    max-height: calc(3rem * 7 - 1rem);
+    scrollbar-gutter: auto;
+  }
+
+  .portfolio-main {
+    /* Override for ≤480px — ΔH is 4rem on this breakpoint */
+    padding-bottom: calc(3rem + 1rem);
+  }
+
+  .list-header,
+  .project-item {
+    grid-template-columns: 30fr 22fr 33fr 15fr;
+    gap: 0 0.4rem;
+  }
+
+  .project-item {
+    min-height: 3rem;
+    height: auto;
+    padding: 0.5rem 0;
+    box-sizing: border-box;
+  }
+
+  .list-header {
+    padding: 0.5rem 0;
+  }
+
+  .project-data.category,
+  .project-data.label,
+  .project-data.year {
+    display: block;
+  }
+
+  /* ============================================================
+   REDUCED MOTION
+   ============================================================ */
+  @media (prefers-reduced-motion: reduce) {
+
+    .bg-image,
+    .bg-video,
+    .corner-square,
+    .project-item {
+      transition: none !important;
+      animation: none !important;
+    }
+
+    .bg-image.is-visible,
+    .bg-video.is-visible {
+      transition: opacity 0.2s ease !important;
+    }
+  }
+}
+
+/* ============================================================
+   PROJECT DETAIL VIEW
+   ============================================================ */
+.project-detail {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 5.5rem 3.5rem 3rem 3.5rem;
+  pointer-events: none;
+  overflow: hidden; /* no vertical scrollbars needed with height-capped grids */
+  overflow-x: hidden; /* disable horizontal scrolling completely */
+  background-color: rgba(10, 10, 10, 0.7); /* translucent backdrop */
+  backdrop-filter: blur(12px); /* luxury glassmorphism */
+  -webkit-backdrop-filter: blur(12px);
+
+  /* Hidden state */
+  opacity: 0;
+  visibility: hidden;
+  transition:
+    opacity 0.55s var(--ease-out-quart),
+    visibility 0s linear 0.55s;
+}
+
+.project-detail.is-open {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: all;
+  transition:
+    opacity 0.55s var(--ease-out-quart),
+    visibility 0s linear 0s;
+}
+
+/* Back button */
+.back-btn {
+  display: inline-flex;
+  align-items: center;
+  height: 1.5rem;
+  background: none;
+  border: none;
+  color: var(--color-text);
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  font-weight: bold;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  cursor: pointer;
+  padding: 0;
+  line-height: 1;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition:
+    opacity var(--transition-medium),
+    visibility var(--transition-medium),
+    color var(--transition-fast);
+}
+
+body.detail-open .back-btn {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: all;
+}
+
+.back-btn:hover {
+  opacity: 1;
+  color: var(--color-accent);
+}
+
+/* Navigation arrows in detail view */
+.nav-arrow-btn {
+  position: fixed;
+  top: 50%;
+  z-index: 60;
+  background: none;
+  border: none;
+  color: #ffffff;
+  font-family: var(--font-mono);
+  font-size: 2rem;
+  font-weight: bold;
+  cursor: pointer;
+  padding: 1.5rem 1rem;
+  opacity: 0.9;
+  transition: opacity var(--transition-fast), color var(--transition-fast), transform var(--transition-fast);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.nav-arrow-btn:hover {
+  opacity: 1;
+  color: var(--color-accent);
+}
+
+.nav-prev-btn {
+  left: 3.5rem;
+  transform: translateY(-50%);
+}
+
+.nav-prev-btn:hover {
+  transform: translate(-6px, -50%);
+}
+
+.nav-next-btn {
+  right: 3.5rem;
+  transform: translateY(-50%);
+}
+
+.nav-next-btn:hover {
+  transform: translate(6px, -50%);
+}
+
+
+/* Detail Grid Layout */
+.detail-grid {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 100%;
+  height: calc(100vh - 8.5rem); /* fills the screen height minus paddings */
+  max-width: 1400px;
+  margin: 0 auto;
+  z-index: 10;
+  pointer-events: auto; /* enable interaction on gallery grid */
+
+  /* Entry animation — slides up from below */
+  transform: translateY(24px);
+  opacity: 0;
+  transition: transform 0.8s var(--ease-out-quart) 0.15s, opacity 0.8s var(--ease-out-quart) 0.15s;
+}
+
+/* Centering when top gallery is hidden (only-bottom) */
+@media (min-width: 993px) {
+  .detail-grid.only-bottom {
+    justify-content: center;
+  }
+  .detail-grid.only-bottom .detail-gallery-bottom {
+    margin-top: 0;
+  }
+}
+
+/* Centering and expanding the text column when the bottom wide image is hidden */
+.detail-grid.no-wide-image .detail-text-column {
+  width: 100%;
+  max-width: 650px;
+  margin: 0 auto;
+  align-items: center;
+  text-align: center;
+  justify-content: center;
+}
+
+.detail-grid.no-wide-image .detail-meta {
+  justify-content: center;
+}
+
+.detail-grid.no-wide-image .detail-desc {
+  margin: 0 auto;
+}
+
+.project-detail.is-open .detail-grid {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+/* Zone supérieure : 3 canvas alignment with flex height capping */
+.detail-gallery-top {
+  display: flex;
+  align-items: center; /* Center the left and right portrait images vertically relative to the center square image */
+  justify-content: space-between; /* distribute left, center, and right perfectly aligned with boundaries */
+  width: 100%;
+  height: clamp(260px, 42vh, 360px); /* massive cinematic scaling while ensuring viewport fit */
+}
+
+.detail-gallery-top .gallery-img-wrapper {
+  height: 100%;
+  width: auto; /* let aspect-ratio control the width */
+}
+
+/* Establish visual hierarchy: center image is full height, side images are smaller */
+.detail-gallery-top .format-square {
+  height: 100% !important;
+  aspect-ratio: 1 / 1 !important;
+}
+
+.detail-gallery-top .format-vertical {
+  height: 75% !important;
+  aspect-ratio: 3 / 4 !important;
+}
+
+/* Zone inférieure : Colonne texte + Canvas large */
+.detail-gallery-bottom {
+  display: flex;
+  gap: clamp(2rem, 4vw, 4rem); /* dynamic spacing that adjusts fluidly with viewport width */
+  align-items: flex-end;
+  justify-content: space-between;
+  width: 100%;
+  height: clamp(280px, 45vh, 380px); /* massive cinematic bottom height scaling */
+  margin-top: auto;
+}
+
+.detail-text-column {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  width: 38%; /* optimized column width to maximize wide canvas area */
+  max-width: 520px;
+  height: 100%;
+  justify-content: flex-end;
+}
+
+.gallery-bottom-wide {
+  width: 58%; /* expanded wide canvas to take up more horizontal space */
+  height: 100%;
+}
+
+.gallery-bottom-wide .gallery-img-wrapper {
+  height: 100%;
+  width: 100%;
+}
+
+/* Gallery image wrapper for WebGL canvas */
+.gallery-img-wrapper {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  border-radius: 4px;
+}
+
+.gallery-img-wrapper canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  pointer-events: none;
+}
+
+/* Precise layouts & aspect ratios from ref image */
+.gallery-img-wrapper.format-vertical {
+  aspect-ratio: 3 / 4;
+}
+
+.gallery-img-wrapper.format-square {
+  aspect-ratio: 1 / 1;
+}
+
+.gallery-img-wrapper.format-horizontal-top {
+  aspect-ratio: 4 / 3;
+}
+
+.gallery-img-wrapper.format-horizontal-bottom {
+  aspect-ratio: 16 / 7;
+}
+
+.detail-meta {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.detail-tag {
+  font-size: var(--fs-xs);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+}
+
+.detail-tag:empty {
+  display: none;
+}
+
+/* Separate visible tags with commas and space after them */
+.detail-tag:not(:empty) ~ .detail-tag:not(:empty)::before {
+  content: ",";
+  margin-right: 0.5rem;
+  color: var(--color-accent);
+  letter-spacing: normal;
+}
+
+/* Big title */
+.detail-title {
+  font-family: var(--font-mono);
+  font-size: clamp(2.5rem, 6vw, 5rem);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  line-height: 1.05;
+  color: var(--color-text);
+  text-transform: uppercase;
+}
+
+/* Artist subtitle */
+.detail-artist {
+  font-size: var(--fs-sm);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+  opacity: 0.85;
+}
+
+/* Description text */
+.detail-desc {
+  font-size: var(--fs-base);
+  line-height: 1.7;
+  color: #ffffff;
+  opacity: 1;
+  max-width: 48ch;
+}
+
+/* Actions row */
+.detail-actions {
+  display: flex;
+  gap: 1rem;
+  margin-top: 0.5rem;
+}
+
+.detail-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-bg);
+  background: var(--color-accent);
+  padding: 0.65rem 1.1rem;
+  border: none;
+  cursor: pointer;
+  transition: background var(--transition-fast), color var(--transition-fast), transform var(--transition-fast);
+  text-decoration: none;
+}
+
+.detail-btn:hover {
+  background: #fff;
+  color: var(--color-bg);
+  transform: translateY(-1px);
+}
+
+/* When detail is open — hide portfolio list gracefully */
+body.detail-open .site-wrapper {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s var(--ease-in-quart);
+}
+
+/* Bring bg-image & bg-video to full opacity in detail view */
+body.detail-open .bg-image.is-visible,
+body.detail-open .bg-video.is-visible {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* Darken the bg overlay more in detail view for readability */
+body.detail-open .bg-overlay {
+  background: radial-gradient(ellipse at center,
+      rgba(10, 10, 10, 0.4) 0%,
+      rgba(10, 10, 10, 0.85) 100%);
+}
+
+/* Hide the ASCII background when detail is open */
+body.detail-open #site-bg {
+  opacity: 0;
+  transition: opacity 0.4s var(--ease-in-quart);
+}
+
+/* Responsive detail */
+@media (max-width: 992px) {
+  .project-detail {
+    padding: 0;
+    justify-content: flex-start;
+    overflow: hidden; /* static parent so navigation arrows remain perfectly immobile */
+    overflow-x: hidden;
+  }
+
+  .detail-grid {
+    height: 100%;
+    width: 100%;
+    overflow-y: auto; /* delegate scrolling to the grid container */
+    overflow-x: hidden;
+    padding: 5rem 3rem 3rem 3rem;
+    gap: 1.25rem; /* tight clean spacing between content groups */
+    justify-content: flex-start; /* pack elements tightly at the top */
+    box-sizing: border-box;
+    scrollbar-width: none !important; /* Hide scrollbars on Firefox */
+  }
+
+  .detail-grid::-webkit-scrollbar {
+    display: none !important; /* Hide scrollbars on Chrome/Safari/Brave to prevent layout shift */
+  }
+
+  .detail-gallery-top {
+    display: block !important; /* Bypasses Safari/WebKit flexbox aspect-ratio collapse bug */
+    height: auto !important;
+    max-height: none !important;
+    order: 2 !important;
+  }
+
+  .detail-gallery-top .gallery-img-wrapper,
+  .detail-gallery-top .format-vertical,
+  .detail-gallery-top .format-square {
+    width: 100% !important;
+    height: auto !important;
+    margin-bottom: 0.2rem !important; /* Clean identical margin gaps between stacked block elements */
+  }
+
+  .detail-gallery-bottom {
+    display: contents; /* removes wrapper box to let children sit directly in detail-grid */
+  }
+
+  .detail-text-column {
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    gap: 1.25rem;
+    order: 1; /* first in flow (description at the top) */
+  }
+
+  .detail-desc {
+    max-width: none !important; /* Remove character limit on mobile to match image widths perfectly */
+  }
+
+  .gallery-bottom-wide {
+    width: 100% !important;
+    height: auto !important;
+    order: 3 !important;
+    margin-top: -1.25rem !important; /* perfectly neutralizes flex gap and aligns with the 0.2rem margin gap of stacked block elements */
+  }
+
+  .gallery-img-wrapper.format-vertical,
+  .gallery-img-wrapper.format-square,
+  .gallery-img-wrapper.format-horizontal-top,
+  .gallery-img-wrapper.format-horizontal-bottom,
+  .detail-gallery-top .format-vertical,
+  .detail-gallery-top .format-square {
+    aspect-ratio: 16 / 9 !important; /* unify aspect ratio on mobile for perfect viewports and override desktop important rules */
+  }
+
+  .nav-arrow-btn {
+    font-size: 1.5rem;
+    padding: 1rem 0.4rem;
+  }
+
+  .nav-prev-btn {
+    left: 0.5rem;
+  }
+
+  .nav-next-btn {
+    right: 0.5rem;
+  }
+
+  .detail-title {
+    font-size: clamp(2rem, 8vw, 3.5rem);
+  }
+
+  .site-header {
+    height: 3.5rem;
+    padding: 0 3rem;
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    top: 0;
+    left: 0;
+    right: 0;
+  }
+
+
+  .logo {
+    font-size: 1.0rem;
+    padding: 0 1rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .project-detail,
+  .detail-content,
+  .back-btn {
+    transition: opacity 0.2s ease, visibility 0s linear !important;
+    transform: none !important;
+  }
+}
+
+/* ============================================================
+   HEADER & LOGO
+   ============================================================ */
+.site-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4.5rem;
+  padding: 0 3.5rem;
+  z-index: 100;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  background: transparent;
+  border-bottom: 1px solid transparent;
+  transition: background var(--transition-medium), border-color var(--transition-medium), backdrop-filter var(--transition-medium);
+  pointer-events: auto; /* ensure we can click the logo and links */
+}
+
+.site-header.scrolled {
+  background: rgba(10, 10, 10, 0.95);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.back-btn-container {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.logo-container {
+  display: flex;
+  justify-content: center;
+}
+
+.contact-btn-container {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.logo {
+  font-family: "KCY2KBanger-Bold", sans-serif;
+  font-size: 1.4rem;
+  font-weight: bold;
+  color: var(--color-text);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  user-select: none;
+  transition: color var(--transition-fast), transform var(--transition-medium);
+  cursor: default; /* default cursor on homepage */
+  display: inline-block;
+  white-space: nowrap;
+  padding: 0 1.5rem; /* Pad the slanted character widths on the sides to prevent truncation on mobile screens */
+  line-height: 1;
+  pointer-events: none; /* disable clicks on homepage */
+}
+
+body.detail-open .logo {
+  cursor: pointer;
+  pointer-events: all; /* enable clicks when inside a project detail */
+}
+
+body.detail-open .logo:hover {
+  color: var(--color-accent);
+  transform: scale(1.05);
+}

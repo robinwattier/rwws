@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Robin Wattier</title>
+    <meta name="description" content="Robin Wattier — Creative portfolio exploring AI, Audio, and Visual experiences.">
+
+        <!-- Fonts: Google Fonts Montserrat -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/three@0.160.0/build/three.min.js"></script>
+    <link rel="stylesheet" href="style.css">
+
+    <script src="js/script.js" defer></script>
+</head>
+
+<body>
+
+    <!-- Global Background -->
+    <div id="site-bg">
+        <div id="ascii-canvas-container" class="ascii-text-container" style="width: 100%; height: 100%; position: absolute;"></div>
+    </div>
+
+    <!-- Navbar -->
+    <header id="navbar" role="banner">
+        <div class="nav-left">
+            <!-- Hamburger: visible only on mobile -->
+            <button id="menu-toggle" class="icon-btn hamburger-btn" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-menu">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="3" y1="6" x2="21" y2="6"/>
+                    <line x1="3" y1="12" x2="21" y2="12"/>
+                    <line x1="3" y1="18" x2="21" y2="18"/>
+                </svg>
+            </button>
+        </div>
+
+        <div class="nav-right">
+            <!-- Desktop nav links: visible only on desktop -->
+            <nav class="desktop-nav" aria-label="Main navigation">
+                <!-- Links will be added here -->
+            </nav>
+        </div>
+    </header>
+
+    <!-- Fullscreen Mobile Menu Overlay -->
+    <div id="mobile-menu" class="overlay hidden" role="dialog" aria-modal="true" aria-label="Navigation menu">
+        <div class="menu-content">
+            <button id="menu-close" class="close-btn" aria-label="Close menu">&times;</button>
+            <nav aria-label="Mobile navigation">
+                <ul class="nav-links">
+                    <!-- Mobile links will be added here -->
+                </ul>
+            </nav>
+        </div>
+    </div>
+
+
+
+    <!-- Main Content -->
+    <main>
+        <!-- Hero / About Section -->
+        <section id="hero">
+            <div class="hero-content">
+                <!-- Text and button removed for ASCII intro -->
+            </div>
+        </section>
+    </main>
+
+
+
+    <script src="js/ascii-effect.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const container = document.getElementById('ascii-canvas-container');
+            if (container && window.initAsciiEffect) {
+                // Force loading of both fonts (with correct bold/normal weights) before initializing the 3D canvas
+                Promise.all([
+                    document.fonts.load('12px "Montserrat"'),
+                    document.fonts.load('bold 12px "Montserrat"'),
+                    document.fonts.load('bold 12px "KCY2KBanger-Bold"')
+                ]).then(() => {
+                    const isMobile = window.innerWidth < 768;
+                    const heroText = isMobile ? 'R\nW' : 'ROBIN\nWATTIER';
+                    const fontSize = isMobile ? 480 : 250;
+                    const lHeight = isMobile ? 0.75 : 1.0;
+
+                    window.initAsciiEffect(container, {
+                        text: heroText,
+                        asciiFontSize: 10,
+                        textFontSize: fontSize,
+                        lineHeight: lHeight,
+                        fontFamily: isMobile ? 'KCY2KBanger-Bold' : 'Montserrat',
+                        textColor: '#ffffff',
+                        enableWaves: true,
+                        planeBaseHeight: isMobile ? 16 : 12
+                    });
+                });
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description"
+    content="Music portfolio of Robin Wattier — singles, EPs and productions released between 2022 and 2024." />
+  <title>Robin Wattier</title>
+  <link rel="icon" type="image/png" href="assets/logo-rw-fiv-icon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Montserrat:wght@400;700;900&display=swap"
+    rel="stylesheet" />
+  <script src="https://unpkg.com/three@0.160.0/build/three.min.js" defer></script>
+  <script type="module"
+    src="https://cdn.jsdelivr.net/npm/@webawesome/webawesome@latest/dist/webawesome.loader.js"></script>
+  <link rel="stylesheet" href="assets/bg/style.css" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+
+  <!-- ============================================================
+       CONTENU DU SITE — modifie tout ici, sans toucher au reste
+       ============================================================ -->
+  <script>
+
+    /* ----------------------------------------------------------
+       TEXTES DE L'INTERFACE
+       ---------------------------------------------------------- */
+    window.SITE_LABELS = {
+      /* Colonnes de la liste */
+      colName: 'PROJECT NAME',
+      colType: 'TYPE',
+      colAuthor: 'AUTHOR(S)',
+      colYear: 'YEAR',
+
+      /* Logo & navigation */
+      logoText: 'RW',
+      backLabel: 'BACK',
+
+      /* Titre caché (SEO / accessibilité) */
+      h1: 'Robin Wattier — Music Portfolio',
+
+      /* Méta page */
+      pageTitle: 'Robin Wattier',
+      metaDesc: 'Music portfolio of Robin Wattier — singles, EPs and productions released between 2022 and 2024.',
+    };
+
+    /* ----------------------------------------------------------
+       PROJETS
+       Chaque projet = un objet avec les champs suivants :
+         name        → titre affiché dans la liste et la fiche
+         type        → catégorie (ex. SINGLE, EP, REMIX…)
+         author      → author(s) / collaborateurs
+         year        → année de sortie
+         image       → URL de l'image de fond (hover + fiche)
+         description → texte descriptif de la fiche
+         gallery     → tableau de 4 URLs d'images pour la galerie
+                       [0] verticale gauche  [1] carrée centre
+                       [2] verticale droite  [3] large bas
+       ---------------------------------------------------------- */
+    window.PROJECTS = [
+
+      {
+        id: 1,
+        name: 'Like we used to drift',
+        type: 'Music',
+        author: 'Robin Wattier, Trap City',
+        year: '2026',
+        image: 'https://i.pinimg.com/736x/9f/10/23/9f1023c3785097536e164d3ef7ac9fb6.jpg',
+        video: 'assets/bg/trap-city.mp4',
+        youtube: 'https://youtu.be/oydJdu7i1Lc?si=cRc7qZApEZYXDVeb',
+        description: 'Thrilled for my first release on Trap City! I mashed up the Tokyo Drift theme, Swog, and Hopex to create this. Visuals by AI.',
+        gallery: [
+          '',
+          '',
+          '',
+          'https://img.youtube.com/vi/oydJdu7i1Lc/maxresdefault.jpg'
+        ]
+      },
+
+      {
+        id: 2,
+        name: 'PROJECT BETA',
+        type: 'INTERFACE',
+        author: 'CREATIVE LABS',
+        year: 'xxxx',
+        image: 'https://i.pinimg.com/736x/bf/f0/4d/bff04d662db206377de801ec0bc42804.jpg',
+        description: 'An interactive experimental layout leveraging glassmorphism and subtle background noise overlays to isolate foreground actions.',
+        gallery: [
+          'https://images.unsplash.com/photo-1506157786151-b8491531f063?w=800&auto=format&fit=crop&q=80',
+          'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=800&auto=format&fit=crop&q=80',
+          'https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=800&auto=format&fit=crop&q=80',
+          'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=1200&auto=format&fit=crop&q=80'
+        ]
+      },
+
+      {
+        id: 3,
+        name: 'PROJECT GAMMA',
+        type: 'APPLICATION',
+        author: 'DEVELOPMENT CORP',
+        year: 'xxxx',
+        image: 'https://i.pinimg.com/736x/90/cf/ec/90cfec4c5230978dba450909c676fd42.jpg',
+        description: 'A modular content architecture study built for maximum accessibility and fluid viewport-aware typographic hierarchy.',
+        gallery: [
+          'https://images.unsplash.com/photo-1506157786151-b8491531f063?w=800&auto=format&fit=crop&q=80',
+          'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=800&auto=format&fit=crop&q=80',
+          'https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=800&auto=format&fit=crop&q=80',
+          'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=1200&auto=format&fit=crop&q=80'
+        ]
+      },
+
+      {
+        id: 4,
+        name: 'PROJECT DELTA',
+        type: 'EXPERIMENT',
+        author: 'RESEARCH GROUP',
+        year: 'xxxx',
+        image: 'https://i.pinimg.com/736x/8a/9d/06/8a9d06bccabc53834aa311fb3beb75f6.jpg',
+        description: 'A performance-driven animation workflow exploring spring physics-based micro-interactions and low-latency feedback transitions.',
+        gallery: [
+          'https://images.unsplash.com/photo-1506157786151-b8491531f063?w=800&auto=format&fit=crop&q=80',
+          'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=800&auto=format&fit=crop&q=80',
+          'https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=800&auto=format&fit=crop&q=80',
+          'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=1200&auto=format&fit=crop&q=80'
+        ]
+      },
+
+      {
+        id: 5,
+        name: 'PROJECT EPSILON',
+        type: 'FRAMEWORK',
+        author: 'OPEN SOURCE',
+        year: 'xxxx',
+        image: 'https://i.pinimg.com/1200x/99/0d/93/990d93d257f1f31ac12fbd161b29da8b.jpg',
+        description: 'A flexible open source visual standard prioritizing dark mode accessibility and high-contrast color token systems.',
+        gallery: [
+          'https://images.unsplash.com/photo-1506157786151-b8491531f063?w=800&auto=format&fit=crop&q=80',
+          'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=800&auto=format&fit=crop&q=80',
+          'https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=800&auto=format&fit=crop&q=80',
+          'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=1200&auto=format&fit=crop&q=80'
+        ]
+      },
+
+      {
+        id: 6,
+        name: 'PROJECT ZETA',
+        type: 'PLATFORM',
+        author: 'SOFTWARE HOUSE',
+        year: 'xxxx',
+        image: 'https://i.pinimg.com/1200x/1c/17/6b/1c176b16985212a93a950d61793b7e18.jpg',
+        description: 'An immersive showcase platform exploring non-linear navigation patterns and organic WebGL water ripple interactions.',
+        gallery: [
+          'https://images.unsplash.com/photo-1506157786151-b8491531f063?w=800&auto=format&fit=crop&q=80',
+          'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=800&auto=format&fit=crop&q=80',
+          'https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=800&auto=format&fit=crop&q=80',
+          'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=1200&auto=format&fit=crop&q=80'
+        ]
+      },
+
+      {
+        id: 7,
+        name: 'PROJECT ALPHA II',
+        type: 'PROTOTYPE',
+        author: 'DESIGN LAB',
+        year: 'xxxx',
+        image: 'https://i.pinimg.com/736x/9f/10/23/9f1023c3785097536e164d3ef7ac9fb6.jpg',
+        description: 'A conceptual exploration of minimal interfaces, focusing on dynamic typography and raw container-less spacing rhythm.',
+        gallery: [
+          'https://images.unsplash.com/photo-1506157786151-b8491531f063?w=800&auto=format&fit=crop&q=80',
+          'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=800&auto=format&fit=crop&q=80',
+          'https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=800&auto=format&fit=crop&q=80',
+          'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=1200&auto=format&fit=crop&q=80'
+        ]
+      },
+
+      {
+        id: 8,
+        name: 'PROJECT BETA II',
+        type: 'INTERFACE',
+        author: 'CREATIVE LABS',
+        year: 'xxxx',
+        image: 'https://i.pinimg.com/736x/bf/f0/4d/bff04d662db206377de801ec0bc42804.jpg',
+        description: 'An interactive experimental layout leveraging glassmorphism and subtle background noise overlays to isolate foreground actions.',
+        gallery: [
+          'https://images.unsplash.com/photo-1506157786151-b8491531f063?w=800&auto=format&fit=crop&q=80',
+          'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=800&auto=format&fit=crop&q=80',
+          'https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=800&auto=format&fit=crop&q=80',
+          'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=1200&auto=format&fit=crop&q=80'
+        ]
+      },
+
+      {
+        id: 9,
+        name: 'PROJECT GAMMA II',
+        type: 'APPLICATION',
+        author: 'DEVELOPMENT CORP',
+        year: 'xxxx',
+        image: 'https://i.pinimg.com/736x/90/cf/ec/90cfec4c5230978dba450909c676fd42.jpg',
+        description: 'A modular content architecture study built for maximum accessibility and fluid viewport-aware typographic hierarchy.',
+        gallery: [
+          'https://images.unsplash.com/photo-1506157786151-b8491531f063?w=800&auto=format&fit=crop&q=80',
+          'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=800&auto=format&fit=crop&q=80',
+          'https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=800&auto=format&fit=crop&q=80',
+          'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=1200&auto=format&fit=crop&q=80'
+        ]
+      },
+
+      {
+        id: 10,
+        name: 'PROJECT DELTA II',
+        type: 'EXPERIMENT',
+        author: 'RESEARCH GROUP',
+        year: 'xxxx',
+        image: 'https://i.pinimg.com/736x/8a/9d/06/8a9d06bccabc53834aa311fb3beb75f6.jpg',
+        description: 'A performance-driven animation workflow exploring spring physics-based micro-interactions and low-latency feedback transitions.',
+        gallery: [
+          'https://images.unsplash.com/photo-1506157786151-b8491531f063?w=800&auto=format&fit=crop&q=80',
+          'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=800&auto=format&fit=crop&q=80',
+          'https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=800&auto=format&fit=crop&q=80',
+          'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=1200&auto=format&fit=crop&q=80'
+        ]
+      },
+
+    ]; /* fin de PROJECTS */
+
+  </script>
+  <!-- ============================================================
+       FIN DU BLOC CONTENU
+       ============================================================ -->
+
+  <!-- Header / Navigation -->
+  <header class="site-header" id="siteHeader">
+    <div class="back-btn-container">
+      <button class="back-btn" id="backBtn" aria-label="Back to list">
+        <span class="back-label">BACK</span>
+      </button>
+    </div>
+    <div class="logo-container">
+      <div class="logo" role="banner">RW</div>
+    </div>
+    <div class="contact-btn-container"></div>
+  </header>
+
+  <!-- Global ASCII Background -->
+  <div id="site-bg">
+    <div id="ascii-canvas-container" class="ascii-text-container"
+      style="width: 100%; height: 100%; position: absolute; top: 0; left: 0;"></div>
+  </div>
+
+  <!-- Background media layers (for hovers) -->
+  <div id="site-bg-wrapper" style="position: fixed; inset: 0; z-index: calc(var(--z-bg) + 1); pointer-events: none;">
+    <div class="bg-image" id="bgImage" role="img" aria-hidden="true"></div>
+    <video class="bg-video" id="bgVideo" autoplay loop muted playsinline aria-hidden="true"></video>
+    <div class="bg-overlay"></div>
+  </div>
+  <!-- Noise overlay -->
+  <div class="noise" aria-hidden="true"></div>
+
+  <!-- Main wrapper -->
+  <div class="site-wrapper">
+
+    <!-- Portfolio list -->
+    <main class="portfolio-main" id="portfolioMain">
+      <h1 class="sr-only">Robin Wattier — Music Portfolio</h1>
+
+      <ul class="project-list" role="list" id="projectList">
+        <!-- Table Headers -->
+        <li class="list-header" aria-hidden="true">
+          <span>PROJECT NAME</span>
+          <span>TYPE</span>
+          <span>AUTHOR(S)</span>
+          <span style="justify-self: end; text-align: right;">YEAR</span>
+        </li>
+        <!-- Items injected by JS -->
+      </ul>
+    </main>
+
+  </div><!-- /site-wrapper -->
+
+  <!-- Project detail overlay (outside site-wrapper so opacity does not cascade) -->
+  <section class="project-detail" id="projectDetail" aria-hidden="true">
+
+    <!-- Navigation arrows -->
+    <button class="nav-arrow-btn nav-prev-btn" id="prevBtn" aria-label="Previous project">
+      <span class="nav-arrow-char">&lt;</span>
+    </button>
+    <button class="nav-arrow-btn nav-next-btn" id="nextBtn" aria-label="Next project">
+      <span class="nav-arrow-char">&gt;</span>
+    </button>
+
+    <div class="detail-grid">
+      <!-- Zone supérieure : 3 canvas (verticaux et carrés alignés parfaitement) -->
+      <div class="detail-gallery-top">
+        <div class="gallery-img-wrapper format-vertical">
+          <canvas id="galleryCanvas1"></canvas>
+        </div>
+        <div class="gallery-img-wrapper format-square">
+          <canvas id="galleryCanvas2"></canvas>
+        </div>
+        <div class="gallery-img-wrapper format-vertical">
+          <canvas id="galleryCanvas3"></canvas>
+        </div>
+      </div>
+
+      <!-- Zone inférieure : texte descriptif à gauche, canvas large à droite -->
+      <div class="detail-gallery-bottom">
+        <div class="detail-text-column">
+          <div class="detail-meta">
+            <span class="detail-tag" id="detailCategory"></span>
+            <span class="detail-tag" id="detailLabel"></span>
+            <span class="detail-tag" id="detailYear"></span>
+          </div>
+          <h2 class="detail-title" id="detailTitle"></h2>
+          <p class="detail-desc" id="detailDesc"></p>
+        </div>
+
+        <div class="gallery-bottom-wide">
+          <div class="gallery-img-wrapper format-horizontal-bottom">
+            <canvas id="galleryCanvas4"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+
+  <script src="assets/bg/js/ascii-effect.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      try {
+        const container = document.getElementById('ascii-canvas-container');
+        if (container && window.initAsciiEffect && window.THREE) {
+          // Wait until Space Mono and Montserrat/KCY2KBanger-Bold fonts are loaded
+          Promise.all([
+            document.fonts.load('12px "Space Mono"'),
+            document.fonts.load('bold 12px "Space Mono"'),
+            document.fonts.load('12px "Montserrat"'),
+            document.fonts.load('bold 12px "Montserrat"'),
+            document.fonts.load('bold 12px "KCY2KBanger-Bold"')
+          ]).then(() => {
+            const isMobile = window.innerWidth < 768;
+            const heroText = isMobile ? 'R\nW' : 'ROBIN\nWATTIER';
+            const fontSize = isMobile ? 480 : 250;
+            const lHeight = isMobile ? 0.75 : 1.0;
+
+            window.initAsciiEffect(container, {
+              text: heroText,
+              asciiFontSize: 10,
+              textFontSize: fontSize,
+              lineHeight: lHeight,
+              fontFamily: isMobile ? 'KCY2KBanger-Bold' : 'Montserrat',
+              textColor: '#ffffff',
+              enableWaves: true,
+              planeBaseHeight: isMobile ? 16 : 12
+            });
+          }).catch(() => { /* fonts failed to load — skip ASCII */ });
+        }
+      } catch (e) {
+        // THREE.js not available (offline / file:// CORS) — skip ASCII bg gracefully
+        console.warn('ASCII background skipped:', e.message);
+      }
+    });
+  </script>
+
+  <script src="main.js"></script>
+
+  <!-- Metricool tracking -->
+  <script>function loadScript(a) { var b = document.getElementsByTagName("head")[0], c = document.createElement("script"); c.type = "text/javascript", c.src = "https://tracker.metricool.com/resources/be.js", c.onreadystatechange = a, c.onload = a, b.appendChild(c) } loadScript(function () { beTracker.t({ hash: "58d7cefb2d3bd39fe5f518e0d14be844" }) });</script>
+</body>
+
+</html>
