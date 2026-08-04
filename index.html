@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- ============================================================
+     HEADER
+     Métadonnées, SEO, polices et styles
+     ============================================================ -->
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Robin Wattier</title>
+  <meta name="description"
+    content="The website of Robin Wattier, creative projects with interactive hover effects and dynamic visuals." />
+  <meta name="theme-color" content="#0a0a0a" />
+  <link rel="icon" type="image/png" href="assets/logo-rw-fiv-icon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+  <div class="container">
+
+    <!-- ============================================================
+         NAV BAR
+         Logo RW (centre) + bouton Contact/Follow (droite)
+         Menu hamburger sur mobile
+         ============================================================ -->
+    <aside class="navbar">
+
+      <div class="logo">RW</div>
+
+      <nav class="corner-item top-right">
+        <a id="linkContact" class="desktop-contact-link" href="https://linktr.ee/robinwattier" target="_blank"
+          rel="noopener">CONTACT/FOLLOW</a>
+        <button id="menuToggle" class="menu-toggle" aria-label="Toggle navigation menu" aria-expanded="false">
+          <span class="hamburger-line"></span>
+          <span class="hamburger-line"></span>
+        </button>
+      </nav>
+
+    </aside>
+
+    <!-- ============================================================
+         PROJETS
+         Chaque projet = un <div class="project-data-item"> avec :
+           data-artist  → Nom de l'artiste
+           data-album   → Titre de l'album / du projet
+           data-label   → Label / maison de disques
+           data-year    → Année de sortie
+           data-image   → URL de l'image de fond (hover)
+         ============================================================ -->
+    <main id="portfolioContainer" class="portfolio-container">
+      <h1 class="sr-only">Music Portfolio — Robin Wattier</h1>
+
+      <!-- Zone de données des projets — modifier ici -->
+      <div id="projectsData" hidden>
+
+        <!-- Projet 01 -->
+        <div class="project-data-item" data-artist="Robin Wattier & Danelec" data-album="Danelec's webstite"
+          data-label="website" data-year="2026" data-url="https://danelec.be/"
+          data-image="assets/miniatures-projets/Gemini_Generated_Image_c28s5oc28s5oc28s.png">
+        </div>
+
+        <!-- Projet 02 -->
+        <div class="project-data-item" data-artist="Robin Wattier & Trap City" data-album="Like we used to drift"
+          data-label="Music" data-year="2026"
+          data-image="https://i.pinimg.com/736x/bf/f0/4d/bff04d662db206377de801ec0bc42804.jpg">
+        </div>
+
+        <!-- Projet 03 -->
+        <div class="project-data-item" data-artist="Robin Wattier, Trinsic & CH1M3RA" data-album="41 Frozen"
+          data-label="Audiovisual" data-year="2026"
+          data-image="https://i.pinimg.com/736x/90/cf/ec/90cfec4c5230978dba450909c676fd42.jpg">
+        </div>
+
+        <!-- Projet 04 -->
+        <div class="project-data-item" data-artist="Robin Wattier & Nico Gems" data-album="OTOCOLOR"
+          data-label="Landing page, app" data-year="2026"
+          data-image="https://i.pinimg.com/736x/8a/9d/06/8a9d06bccabc53834aa311fb3beb75f6.jpg">
+        </div>
+
+        <!-- Projet 05 -->
+        <div class="project-data-item" data-artist="YOUNG BROKE & LONELY" data-album="GHOST" data-label="SELF RELEASED"
+          data-year="2023" data-image="https://i.pinimg.com/1200x/99/0d/93/990d93d257f1f31ac12fbd161b29da8b.jpg">
+        </div>
+
+        <!-- Projet 06 -->
+        <div class="project-data-item" data-artist="YOUNG BROKE & LONELY" data-album="DIFFICULTY"
+          data-label="SELF RELEASED" data-year="2022"
+          data-image="https://i.pinimg.com/1200x/1c/17/6b/1c176b16985212a93a950d61793b7e18.jpg">
+        </div>
+
+      </div>
+      <!-- Fin des données projets -->
+
+      <ul id="projectList" class="project-list" role="list"></ul>
+    </main>
+
+    <div id="backgroundImage" class="background-image" role="img" aria-hidden="true"></div>
+
+  </div>
+
+  <!-- ============================================================
+       MENU MOBILE
+       Overlay plein écran déclenché par le bouton hamburger
+       ============================================================ -->
+  <div id="mobileMenu" class="mobile-menu-overlay" aria-hidden="true">
+    <button id="menuCloseBtn" class="mobile-menu-close" aria-label="Close menu">&times;</button>
+    <div class="mobile-menu-content">
+      <nav class="mobile-nav-links">
+        <a href="https://linktr.ee/robinwattier" target="_blank" rel="noopener" class="mobile-nav-link">CONTACT /
+          FOLLOW</a>
+      </nav>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       FOOTER
+       Copyright Robin Wattier
+       ============================================================ -->
+  <footer class="site-footer">
+    <span>&copy; <span id="footerYear"></span> Robin Wattier</span>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+
+</html>
